@@ -3,20 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
 
     use AuthenticatesUsers;
 
@@ -25,13 +17,66 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
+    protected $lockoutTimeInMinutes = 2;
+    protected $maxLoginAttempts = 4;
+
 
     /**
      * Create a new controller instance.
+     *
      */
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+    }
+
+    /**
+     * Handle a login request to the application
+     *
+     * @param  LoginRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function login(LoginRequest $request)
+    {
+        if ($lockedOut = $this->limiter()->tooManyAttempts(
+            $this->throttleKey($request), $this->maxLoginAttempts, $this->lockoutTimeInMinutes
+        )) {
+            $this->fireLockoutEvent($request);
+            $secondsRemaining = $this->limiter()->availableIn($this->throttleKey($request));
+
+            return redirect('login')
+                ->with('error', trans_choice('auth.throttle', $secondsRemaining, ['seconds' => $secondsRemaining]))
+                ->withInput($request->only('email'));
+        }
+
+        $credentials = [
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+        ];
+
+        if (!auth()->validate($credentials)) {
+            $this->incrementLoginAttempts($request);
+
+            return redirect('login')->with('error', trans('auth.failed'));
+        }
+
+        $user = auth()->getLastAttempted();
+
+        auth()->login($user);
+
+        return redirect('/');
+    }
+
+    /**
+     * Sign out the current signed in user.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logout(Request $request)
+    {
+        auth()->logout();
+        return redirect('/login')->with('success', trans('auth.logout_success'));
     }
 }
