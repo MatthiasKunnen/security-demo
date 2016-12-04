@@ -63,7 +63,7 @@ class LoginController extends Controller
 
         $user = auth()->getLastAttempted();
 
-        auth()->login($user);
+        auth()->login($user, $request->has('remember'));
 
         return redirect('/');
     }
