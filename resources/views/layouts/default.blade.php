@@ -26,16 +26,16 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <form class="form-link" method="post" action="/sign-out">
+                            <form class="form-link" method="post" action="/logout">
                                 {{csrf_field()}}
-                                <button type="submit">{{trans("default.logout")}}</button>
+                                <button type="submit">{{ trans('login.logout') }}</button>
                             </form>
                         </li>
                     </ul>
                 @else
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/register">{{trans('register.register')}}</a></li>
-                        <li><a href="/login">{{trans('login.login')}}</a></li>
+                        <li><a href="/register">{{ trans('register.register') }}</a></li>
+                        <li><a href="/login">{{ trans('login.login') }}</a></li>
                     </ul>
                 @endif
             </nav>

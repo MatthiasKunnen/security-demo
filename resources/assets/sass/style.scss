@@ -11,6 +11,27 @@
     margin-bottom: 1em;
 }
 
+.form-link {
+    position: relative;
+    padding: 15px;
+    line-height: 20px;
+
+    button {
+        background: none;
+        border: none;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 1em;
+        display: block;
+        color: #9d9d9d;
+        padding: 0;
+
+        &:hover, &:focus {
+            color: #fff;
+        }
+    }
+}
+
 .form-type-1 {
     max-width: 400px;
 }

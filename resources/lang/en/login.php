@@ -4,6 +4,7 @@ return [
     'create_an_account' => 'Create an account',
     'email' => 'Email',
     'login' => 'Login',
+    'logout' => 'Log off',
     'not_registered' => 'Not registered',
     'password' => 'Password',
     'remember_me' => 'Keep me logged in',
