@@ -22,7 +22,9 @@
             <nav class="navbar-collapse collapse">
                 @if(Auth::check())
                     <ul class="nav navbar-nav">
-
+                        <li>
+                            <a href="/post/add">{{ trans('post.add_post') }}</a>
+                        </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>

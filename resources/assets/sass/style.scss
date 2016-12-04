@@ -4,10 +4,14 @@
 
 li > span.nav-span {
     color: #9d9d9d;
-        display: block;
+    display: block;
     position: relative;
     padding: 12.5px 15px;
     line-height: 25px;
+}
+
+.display-block {
+    display: block;
 }
 
 .margin-side-auto {
@@ -17,6 +21,10 @@ li > span.nav-span {
 
 .margin-bottom-1em {
     margin-bottom: 1em;
+}
+
+.page-title {
+    margin-top: 0;
 }
 
 .form-link {
@@ -42,4 +50,39 @@ li > span.nav-span {
 
 .form-type-1 {
     max-width: 400px;
+}
+
+form.new-comment {
+    margin: 1em auto;
+}
+
+.post {
+    border: 2px solid #216a94;
+    border-radius: 4px;
+    padding: 1em;
+    margin-bottom: 1em;
+
+    &-author {
+        font-size: .85em;
+    }
+
+    &-content {
+        margin: 0.5em 0 0;
+    }
+
+    &-title {
+        margin: 0;
+        display: inline-block;
+        font-size: 1.5em;
+    }
+
+    &-view-comments {
+        float: right;
+        font-size: 0.9em;
+    }
+}
+
+textarea.textarea-auto-size {
+    overflow: hidden;
+    resize: none;
 }
