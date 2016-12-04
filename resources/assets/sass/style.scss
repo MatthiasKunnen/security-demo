@@ -2,6 +2,14 @@
     border-radius: 0;
 }
 
+li > span.nav-span {
+    color: #9d9d9d;
+        display: block;
+    position: relative;
+    padding: 12.5px 15px;
+    line-height: 25px;
+}
+
 .margin-side-auto {
     margin-right: auto;
     margin-left: auto;

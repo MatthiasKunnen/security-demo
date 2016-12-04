@@ -26,6 +26,12 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
+                            <span class="nav-span">
+                                {{ trans('login.logged_in_as') }}
+                                <strong>{{ auth()->user()->username }}</strong>
+                            </span>
+                        </li>
+                        <li>
                             <form class="form-link" method="post" action="/logout">
                                 {{csrf_field()}}
                                 <button type="submit">{{ trans('login.logout') }}</button>
