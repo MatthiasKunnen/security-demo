@@ -22,6 +22,6 @@ Route::bind('post', function ($post_id) {
 
 Route::get('/post/{post}', 'PostController@show')->name('single-post');
 Route::post('/post/{post}', 'CommentController@addComment');
-
+Route::get('/post/{post}/comment', 'CommentController@addComment');
 
 Auth::routes();
