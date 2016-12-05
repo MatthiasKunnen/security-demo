@@ -32,14 +32,13 @@ class PostController extends Controller
 
     /**
      * Displays a single post or reroutes to show all the posts with a not found error when
-     * the post_id does not exist.
+     * the post does not exist.
      *
-     * @param $id integer The ID of the post to display.
+     * @param $post Post|null The post to display.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function show($id)
+    public function show($post = null)
     {
-        $post = Post::find($id);
         if ($post === null) {
             return redirect()->route('welcome')->with('error', trans('post.not_found'));
         }
