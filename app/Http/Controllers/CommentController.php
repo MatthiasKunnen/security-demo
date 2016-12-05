@@ -24,6 +24,6 @@ class CommentController extends Controller
         $idStatement = DB::select('SELECT LAST_INSERT_ID()');
         $id = array_values((array)$idStatement[0])[0];
         $url = sprintf('%s/#comment-%s', route('single-post', ['id' => $commentRequest->get('post_id')]), $id);
-        return redirect($url)->with('success', trans('post.created'));
+        return redirect($url)->with('success', trans('post.comment_created'));
     }
 }
