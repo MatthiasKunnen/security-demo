@@ -71,12 +71,11 @@ class LoginController extends Controller
     /**
      * Sign out the current signed in user.
      *
-     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function logout(Request $request)
+    public function logout()
     {
         auth()->logout();
-        return redirect('/login')->with('success', trans('auth.logout_success'));
+        return redirect('/')->with('success', trans('auth.logout_success'));
     }
 }
