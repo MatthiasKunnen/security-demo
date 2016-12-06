@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentRequest;
+use App\Models\Comment;
 use App\Models\Post;
-use Carbon\Carbon;
-use DB;
 
 class CommentController extends Controller
 {
@@ -21,15 +20,14 @@ class CommentController extends Controller
         if ($post === null) {
             return redirect()->route('welcome')->with('error', trans('post.not_found'));
         }
-        DB::statement(sprintf('INSERT INTO comments (user_id, post_id, created_at, content) VALUES
-            ("%s", "%s", "%s", "%s")',
-            auth()->user()->id,
-            $post->id,
-            Carbon::now()->toDateTimeString(),
-            $commentRequest->get('content')));
-        $idStatement = DB::select('SELECT LAST_INSERT_ID()');
-        $id = array_values((array)$idStatement[0])[0];
-        $url = sprintf('%s/#comment-%s', route('single-post', ['id' => $post->id]), $id);
+
+        $comment = new Comment();
+        $comment->fill($commentRequest->all());
+        $comment->user_id = auth()->id();
+        $comment->post_id = $post->id;
+        $comment->save();
+
+        $url = sprintf('%s/#comment-%s', route('single-post', ['id' => $post->id]), $comment->id);
         return redirect($url)->with('success', trans('post.comment_created'));
     }
 }

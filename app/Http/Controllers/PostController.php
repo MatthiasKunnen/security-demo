@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use App\ViewModels\PostViewModel;
-use Carbon\Carbon;
-use DB;
 
 class PostController extends Controller
 {
@@ -19,15 +17,11 @@ class PostController extends Controller
      */
     public function addPost(PostRequest $postRequest)
     {
-        DB::statement(sprintf('INSERT INTO posts (user_id, created_at, title, content) VALUES
-            ("%s", "%s", "%s", "%s")',
-            auth()->user()->id,
-            Carbon::now()->toDateTimeString(),
-            $postRequest->get('title'),
-            $postRequest->get('content')));
-        $idStatement = DB::select('SELECT LAST_INSERT_ID()');
-        $id = array_values((array)$idStatement[0])[0];
-        return redirect()->route('single-post', $id)->with('success', trans('post.created'));
+        $post = new Post();
+        $post->fill($postRequest->all());
+        $post->user_id = auth()->id();
+        $post->save();
+        return redirect()->route('single-post', $post->id)->with('success', trans('post.created'));
     }
 
     /**

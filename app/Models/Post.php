@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
 
+    protected $guarded = [];
+
     /**
      * One to Many relation
      *
