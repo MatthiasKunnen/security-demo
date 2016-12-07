@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use Cookie;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
@@ -65,7 +66,8 @@ class LoginController extends Controller
 
         auth()->login($user, $request->has('remember'));
 
-        return redirect('/');
+        return redirect('/')
+            ->withCookie(Cookie::make('LaravelSession', Cookie::get('laravel_session'), 60, null, null, false, false));
     }
 
     /**
