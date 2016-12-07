@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use Cookie;
+use DB;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
@@ -40,29 +42,16 @@ class LoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        if ($lockedOut = $this->limiter()->tooManyAttempts(
-            $this->throttleKey($request), $this->maxLoginAttempts, $this->lockoutTimeInMinutes
-        )) {
-            $this->fireLockoutEvent($request);
-            $secondsRemaining = $this->limiter()->availableIn($this->throttleKey($request));
-
-            return redirect('login')
-                ->with('error', trans_choice('auth.throttle', $secondsRemaining, ['seconds' => $secondsRemaining]))
-                ->withInput($request->only('email'));
-        }
-
-        $credentials = [
-            'username' => $request->input('username'),
-            'password' => $request->input('password'),
-        ];
-
-        if (!auth()->validate($credentials)) {
-            $this->incrementLoginAttempts($request);
-
+        $result = DB::select(sprintf('SELECT id FROM users WHERE username="%s" AND password="%s"',
+            $request->get('username'),
+            $request->get('password')));
+        if (count($result) === 0) {
             return redirect('login')->with('error', trans('auth.failed'));
         }
+        $row = (array)$result[0];
+        $id = $row['id'];
 
-        $user = auth()->getLastAttempted();
+        $user = User::find($id);
 
         auth()->login($user, $request->has('remember'));
 
