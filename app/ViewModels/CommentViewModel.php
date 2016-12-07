@@ -16,10 +16,12 @@ class CommentViewModel
      */
     public function __construct(Comment $comment, PostViewModel $postViewModel)
     {
-        $this->id = $comment->id;
-        $this->created_at = $comment->created_at;
-        $this->content = $comment->content;
-        $this->author = $comment->user->username;
+        if ($comment !== null) {
+            $this->id = $comment->id;
+            $this->created_at = $comment->created_at;
+            $this->content = $comment->content;
+            $this->author = $comment->user->username;
+        }
         $this->post = $postViewModel;
     }
 }
