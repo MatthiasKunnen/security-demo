@@ -9,4 +9,5 @@ return [
     'not_registered' => 'Not registered',
     'password' => 'Password',
     'remember_me' => 'Keep me logged in',
+    'username' => 'Username',
 ];

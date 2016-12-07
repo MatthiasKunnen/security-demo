@@ -4,14 +4,14 @@
 
 @section('content')
     <form class="form-type-1 margin-side-auto" action="/login" method="post">
-        <div class="form-group @if($errors->has('email')) has-error @endif">
-            <label class="sr-only" for="email">{{trans("login.email")}}</label>
+        <div class="form-group @if($errors->has('username')) has-error @endif">
+            <label class="sr-only" for="email">{{trans('login.username')}}</label>
             <input type="text" class="form-control"
-                   name="email" id="email"
-                   placeholder="{{trans("login.email")}}">
+                   name="username" id="username"
+                   placeholder="{{trans("login.username")}}">
         </div>
         <div class="form-group @if($errors->has('password')) has-error @endif">
-            <label class="sr-only" for="password">{{trans("login.password")}}</label>
+            <label class="sr-only" for="password">{{trans('login.password')}}</label>
             <input type="password"
                    class="form-control"
                    name="password"
