@@ -36,14 +36,10 @@ class RegisterController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        $user = new User();
-        $user->email = $request->input('email');
-        $user->password = str_rot13($request->input('password'));
-        DB::statement("INSERT INTO users (email, `password`) VALUES ({$user->email}, {$user->password})");
-        $results = DB::select("SELECT id FROM users WHERE email={$user->email}");
+        DB::statement(sprintf('INSERT INTO users (username, email, `password`) VALUES
+            ("%s", "%s", "%s")', $request->input('username'), $request->input('email'), $request->input('password')));
 
-        //TODO put user id in $user
-
+        $user = User::where('email', $request->input('email'))->first();
         auth()->login($user);
         return redirect('/')->with('success', trans('register.success'));
     }
